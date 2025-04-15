@@ -1,3 +1,5 @@
+
+
 /*
 ===========================================
 🐾 Debugging & Exception Handling Activity
@@ -36,25 +38,33 @@ Your job is to fix it!
 3️⃣ Test and Debug:
    - Try valid and invalid inputs
    - Ensure the program handles errors gracefully and continues running
-*/
+
 
 // ============================================
 // 🐞 Initial Code with Bugs (to be debugged)
 // ============================================
 
+const prompt = require('prompt-sync')();
+
 let animals = [];
 let fees = [];
 
 function addAnimal(name, fee) {
-    if (!name || fee < 0) {
+        if (!name || typeof name !== "string" || name.trim() === ''){
+        throw new Error("Animal name must contain only letters")
+    }
+    if (isNaN(fee) || fee < 0) {
         throw new Error("Invalid animal name or adoption fee!");
     }
-    animals.push(name);
+    animals.push(name.trim());
     fees.push(fee);
 }
 
+
+
+
 function getAdoptionFee(animalName) {
-    let index = animals.indexOf(animalName);
+    let index = animals.indexOf(animalName.trim());
     if (index === -1) {
         throw new Error("Animal not found in records!");
     }
@@ -113,12 +123,21 @@ while (true) {
 /*
 🔹 Invalid Input Errors:
 - What if the user enters a negative fee?
-- What if the animal name is blank?
-- What if an animal isn't found?
+A: The program originally would throw an error. I added a check to give prompts to have user input number within bounds
 
+- What if the animal name is blank?
+
+A: The program returns an error. 
+
+- What if an animal isn't found?
+A: It states that the animal is not found in records
 🔹 Code Flow Problems:
 - What happens when an exception is thrown?
+There is an error at a certain place in the program.
+
 - Does the rest of the program continue?
+Yes, but it returns a specific customer error isntead of a generic error.
+I created input validators to fix program running
 
 🔹 Structured Exception Handling:
 - Add `try/catch` blocks to catch these errors and allow the app to continue running.
